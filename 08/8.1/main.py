@@ -1,0 +1,22 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+from database import get_db_connection
+
+app = FastAPI()
+
+class User(BaseModel):
+    username: str
+    password: str
+
+@app.post("/register")
+def register(user: User):
+    conn = get_db_connection()
+    try:
+        conn.execute(
+            "INSERT INTO users (username, password) VALUES (?, ?)",
+            (user.username, user.password)
+        )
+        conn.commit()
+        return {"message": "User registered successfully!"}
+    finally:
+        conn.close()
