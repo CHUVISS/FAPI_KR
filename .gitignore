@@ -154,3 +154,8 @@ cookies.json
 test_cookies.txt
 
 users.db
+
+*.db
+*.pyc
+alembic/__pycache__/
+*.egg-info/
